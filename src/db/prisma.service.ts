@@ -4,10 +4,12 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "generated/prisma/client";
 import { Pool } from "pg";
 
+import { EnvService } from "../config/env/env-service";
+
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-    constructor() {
-        const connectionString = process.env.DATABASE_URL;
+    constructor(readonly envService: EnvService) {
+        const connectionString = envService.getDatabaseUrl();
         const pool = new Pool({ connectionString });
         const adapter = new PrismaPg(pool);
 

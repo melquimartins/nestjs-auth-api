@@ -24,8 +24,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    async validate(payload: { email: string }): Promise<User> {
-        const user = await this.userRepository.findByEmail(payload.email);
+    async validate(payload: { id: number }): Promise<User> {
+        const user = await this.userRepository.findById(payload.id);
 
         if (!user) {
             throw new UnauthorizedException("Credenciais inválidas ou usuário não encontrado");

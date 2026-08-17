@@ -14,8 +14,8 @@ export class AuthController {
         private readonly envService: EnvService,
     ) {}
 
-    @HttpCode(HttpStatus.OK)
     @Post("sign-in")
+    @HttpCode(HttpStatus.OK)
     async signIn(
         @Body() request: SignInRequestDto,
         @Res({ passthrough: true }) response: Response,
@@ -25,8 +25,8 @@ export class AuthController {
         return new ResponseEnvelopeDto("Autenticação realizada com sucesso.");
     }
 
-    @HttpCode(HttpStatus.CREATED)
     @Post("sign-up")
+    @HttpCode(HttpStatus.CREATED)
     async signUp(
         @Body() request: SignUpRequestDto,
         @Res({ passthrough: true }) response: Response,

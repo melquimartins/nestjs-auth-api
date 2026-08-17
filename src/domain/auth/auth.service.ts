@@ -24,7 +24,7 @@ export class AuthService {
             throw new UnauthorizedException("As credenciais informadas são inválidas.");
         }
 
-        return await this.jwtService.signAsync({ email: user.email });
+        return await this.jwtService.signAsync({ id: user.id });
     }
 
     async signUp(request: SignUpRequestDto): Promise<string> {
@@ -34,12 +34,12 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(request.password, 12);
 
-        await this.repository.create({
+        const user = await this.repository.create({
             email: request.email,
             name: request.name,
             password: hashedPassword,
         });
 
-        return await this.jwtService.signAsync({ email: request.email });
+        return await this.jwtService.signAsync({ id: user.id });
     }
 }

@@ -1,9 +1,10 @@
 import { Controller, Get, HttpCode, HttpStatus, UseGuards } from "@nestjs/common";
+
 import type { User } from "generated/prisma/client";
-import { JwtAuthGuard } from "src/security/jwt-auth.guard";
-import { CurrentUser } from "src/shared/decorators/current-user.decorator";
-import { ResponseEnvelopeDto } from "src/shared/dto/response-envelope.dto";
-import { UserResponseDto } from "./dto/user-response.dto";
+import { JwtAuthGuard } from "@/security/jwt-auth.guard";
+import { CurrentUser } from "@/shared/decorators/current-user.decorator";
+import { ResponseEnvelopeDto } from "@/shared/dto/response-envelope.dto";
+import type { UserResponseDto } from "./dto/user-response.dto";
 import { UserMapper } from "./user.mapper";
 import { UserService } from "./user.service";
 

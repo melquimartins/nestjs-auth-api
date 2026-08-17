@@ -1,4 +1,4 @@
-import { isNotEmpty, registerDecorator, ValidationOptions } from "class-validator";
+import { isNotEmpty, registerDecorator, type ValidationOptions } from "class-validator";
 
 export function IsName(options?: ValidationOptions) {
     return (object: object, propertyName: string) => {
@@ -23,7 +23,7 @@ export function IsName(options?: ValidationOptions) {
                     return words.length >= 2;
                 },
                 defaultMessage(): string {
-                    return "O nome deve conter apenas nome e sobrenome.";
+                    return "O nome deve conter pelo menos o nome e sobrenome.";
                 },
             },
         });

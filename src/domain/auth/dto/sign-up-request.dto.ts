@@ -1,8 +1,8 @@
 import { IsEmail, IsNotEmpty } from "class-validator";
 
-import { ToTitleCase } from "../../../shared/decorators/to-title-case.decorator";
-import { IsName } from "../../../shared/validators/is-name.validator";
-import { IsPassword } from "../../../shared/validators/is-password.validator";
+import { ToTitleCase } from "@/shared/decorators/to-title-case.decorator";
+import { IsName } from "@/shared/validators/is-name.validator";
+import { IsPassword } from "@/shared/validators/is-password.validator";
 
 export class SignUpRequestDto {
     @ToTitleCase()

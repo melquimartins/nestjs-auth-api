@@ -9,6 +9,10 @@ export class EnvService {
         return this.configService.getOrThrow<string>("DATABASE_URL");
     }
 
+    getNodeEnv(): string {
+        return this.configService.getOrThrow<string>("NODE_ENV");
+    }
+
     getJwtSecret(): string {
         return this.configService.getOrThrow<string>("JWT_SECRET");
     }

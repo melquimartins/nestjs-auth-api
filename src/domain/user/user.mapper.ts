@@ -7,8 +7,8 @@ export class UserMapper {
     async toResponse(user: User): Promise<UserResponseDto> {
         return {
             id: user.id,
-            email: user.email,
             name: user.name,
+            email: user.email,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         };

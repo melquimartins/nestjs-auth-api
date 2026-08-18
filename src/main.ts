@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import { EnvService } from "@/config/env/env-service";
 import { AppModule } from "./app.module";
+import { swaggerConfig } from "./config/swagger-config";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -17,6 +18,8 @@ async function bootstrap() {
             transform: true,
         }),
     );
+
+    swaggerConfig(app);
 
     app.setGlobalPrefix("api");
 

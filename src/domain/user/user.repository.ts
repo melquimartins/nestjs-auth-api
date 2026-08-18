@@ -4,12 +4,19 @@ import type { User } from "generated/prisma/client";
 import { PrismaService } from "@/db/prisma.service";
 
 export abstract class UserRepository {
-    abstract create(data: { email: string; password: string; name: string }): Promise<User>;
+    abstract create(data: { name: string; email: string; password: string }): Promise<User>;
 
     abstract findById(id: number): Promise<User | null>;
     abstract findByEmail(email: string): Promise<User | null>;
 
-    abstract update(id: number, data: { email?: string; password?: string; name?: string }): Promise<User>;
+    abstract update(
+        id: number,
+        data: {
+            name?: string;
+            email?: string;
+            password?: string;
+        },
+    ): Promise<User>;
 
     abstract delete(id: number): Promise<void>;
 
@@ -18,7 +25,7 @@ export abstract class UserRepository {
 
 @Injectable()
 export class PrismaUserRepository extends PrismaService implements UserRepository {
-    async create(data: { email: string; password: string; name: string }): Promise<User> {
+    async create(data: { name: string; email: string; password: string }): Promise<User> {
         return await this.user.create({ data });
     }
 

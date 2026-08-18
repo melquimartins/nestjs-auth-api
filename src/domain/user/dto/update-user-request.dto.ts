@@ -3,7 +3,7 @@ import { IsNotEmpty } from "class-validator";
 import { ToTitleCase } from "@/shared/decorators/to-title-case.decorator";
 import { IsName } from "@/shared/validators/is-name.validator";
 
-export class UpdateUserDto {
+export class UpdateUserRequestDto {
     @ToTitleCase()
     @IsName()
     @IsNotEmpty({ message: "O nome é obrigatório." })

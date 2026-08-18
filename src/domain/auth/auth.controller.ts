@@ -1,11 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Param, Patch, Post, Res } from "@nestjs/common";
 import type { Response } from "express";
 
 import { EnvService } from "@/config/env/env-service";
 import { ResponseEnvelopeDto } from "@/shared/dto/response-envelope.dto";
 import { AuthService } from "./auth.service";
-import type { SignInRequestDto } from "./dto/sign-in-request.dto";
-import type { SignUpRequestDto } from "./dto/sign-up-request.dto";
+import { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
+import { ResetPasswordRequestDto } from "./dto/reset-password-request.dto";
+import { SignInRequestDto } from "./dto/sign-in-request.dto";
+import { SignUpRequestDto } from "./dto/sign-up-request.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -33,7 +35,7 @@ export class AuthController {
     ): Promise<ResponseEnvelopeDto> {
         this.attachAuthCookie(response, await this.service.signUp(request));
 
-        return new ResponseEnvelopeDto("Cadastro realizado com sucesso.");
+        return new ResponseEnvelopeDto("Conta criada com sucesso.");
     }
 
     private attachAuthCookie(response: Response, token: string): void {
@@ -44,5 +46,30 @@ export class AuthController {
             maxAge: 1000 * 60 * 60 * 24,
             path: "/",
         });
+    }
+
+    @Post("password/forgot")
+    @HttpCode(HttpStatus.ACCEPTED)
+    async forgotPassword(@Body() request: ForgotPasswordRequestDto): Promise<
+        ResponseEnvelopeDto<{
+            link: string | null;
+        }>
+    > {
+        const link = await this.service.forgotPassword(request);
+
+        return new ResponseEnvelopeDto("Se o e-mail estiver cadastrado, as instruções serão enviadas.", {
+            link,
+        });
+    }
+
+    @Patch("password/reset/:token")
+    @HttpCode(HttpStatus.OK)
+    async resetPassword(
+        @Param("token") token: string,
+        @Body() request: ResetPasswordRequestDto,
+    ): Promise<ResponseEnvelopeDto> {
+        await this.service.resetPassword(token, request);
+
+        return new ResponseEnvelopeDto("Senha redefinida com sucesso.");
     }
 }

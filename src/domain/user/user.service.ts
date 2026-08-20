@@ -19,7 +19,7 @@ import { UserRepository } from "./user.repository";
 export class UserService {
     constructor(
         private readonly repository: UserRepository,
-        private readonly jwt: JwtService,
+        private readonly jwtService: JwtService,
     ) {}
 
     async getProfile(user: User): Promise<User> {
@@ -67,14 +67,17 @@ export class UserService {
             throw new ConflictException("E-mail já cadastrado.");
         }
 
-        const token = await this.jwt.signAsync({ userId: user.id, newEmail: request.newEmail }, { expiresIn: "30m" });
+        const token = await this.jwtService.signAsync(
+            { userId: user.id, newEmail: request.newEmail },
+            { expiresIn: "30m" },
+        );
 
         return `http://localhost:3000/api/users/email/confirm/${token}`;
     }
 
     async confirmEmailUpdate(user: User, token: string): Promise<void> {
         try {
-            const payload = await this.jwt.verifyAsync<{ userId: number; newEmail: string }>(token);
+            const payload = await this.jwtService.verifyAsync<{ userId: number; newEmail: string }>(token);
 
             if (payload.userId !== user.id) {
                 throw new UnauthorizedException("Credenciais inválidas.");
